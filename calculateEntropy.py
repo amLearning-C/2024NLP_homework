@@ -87,6 +87,10 @@ def preprocess_text(text):
     cleaned_text = ''.join(char for char in text if char.isprintable())
     # 删除所有的非中文字符
     cleaned_text = re.sub(r'[^\u4e00-\u9fa5]', '', cleaned_text)
+    # 删除所有停用词
+    with open('cn_stopwords.txt', "r", encoding='utf-8') as f:
+        stopwords = set([line.strip() for line in f])
+        cleaned_text = ''.join(char for char in cleaned_text if char not in stopwords)
     # 删除所有的标点符号
     punctuation_pattern = re.compile(r'[\s!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~]+')
     cleaned_text = punctuation_pattern.sub('', cleaned_text)
